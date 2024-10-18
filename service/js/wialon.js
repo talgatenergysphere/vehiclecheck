@@ -105,6 +105,20 @@ window.GLOBALS.JS.wialon_get_location = async (pos) => {
     });
 }
 
+window.GLOBALS.JS.wialon_get_locations = async (pos_list) => {
+    return new Promise((resolve, reject) => {
+        wialon.util.Gis.getLocations(pos_list, function (code, address) {
+            if (code) {
+                reject(new Error('Ошибка при запросе адреса в системе gps-трекинга Wialon: ' + wialon.core.Errors.getErrorText(code)));
+                return;
+            } // exit if error code
+
+            resolve(address);
+            return;
+        });
+    });
+}
+
 window.GLOBALS.JS.wialon_get_track = async (unit, selected_date) => {
     return new Promise((resolve, reject) => {
 
@@ -135,53 +149,25 @@ window.GLOBALS.JS.wialon_get_track = async (unit, selected_date) => {
 
         // callback is performed, when messages are ready and layer is formed
         callback = qx.lang.Function.bind(function (code, layer) {
+            
+            if( code == 1001 ){
+                resolve(null);
+                return;
+            }
+
             if (code) {
                 reject(new Error('Ошибка при получении трека объекта в системе gps-трекинга Wialon: ' + wialon.core.Errors.getErrorText(code)));
                 return;
             } // exit if error code
+            
+            if( !layer?._data?.units || !Array.isArray(layer._data.units) || layer._data.units.length != 1){
+                reject(new Error('Отсутствуют данные трека объекта в системе gps-трекинга Wialon'));
+                return;
+            }
 
-            resolve(layer);
-
-            // if (layer) {
-                
-                // var layer_bounds = layer.getBounds(); // fetch layer bounds
-                // if (!layer_bounds || layer_bounds.length != 4 || (!layer_bounds[0] && !layer_bounds[1] && !layer_bounds[2] && !layer_bounds[3])) // check all bounds terms
-                //     return;
-
-                // // if map existence, then add tile-layer and marker on it
-                // if (map) {
-                //     //prepare bounds object for map
-                //     var bounds = new L.LatLngBounds(
-                //         L.latLng(layer_bounds[0], layer_bounds[1]),
-                //         L.latLng(layer_bounds[2], layer_bounds[3])
-                //     );
-                //     map.fitBounds(bounds); // get center and zoom
-                //     // create tile-layer and specify the tile template
-                //     if (!tile_layer)
-                //         tile_layer = L.tileLayer(sess.getBaseUrl() + "/adfurl" + renderer.getVersion() + "/avl_render/{x}_{y}_{z}/" + sess.getId() + ".png", { zoomReverse: true, zoomOffset: -1 }).addTo(map);
-                //     else
-                //         tile_layer.setUrl(sess.getBaseUrl() + "/adfurl" + renderer.getVersion() + "/avl_render/{x}_{y}_{z}/" + sess.getId() + ".png");
-                //     // push this layer in global container
-                //     layers[unit_id] = layer;
-                //     // get icon
-                //     var icon = L.icon({ iconUrl: unit.getIconUrl(24) });
-                //     //create or get marker object and add icon in it
-                //     var marker = L.marker({ lat: pos.y, lng: pos.x }, { icon: icon }).addTo(map);
-
-                //     marker.setLatLng({ lat: pos.y, lng: pos.x }); // icon position on map
-                //     marker.setIcon(icon); // set icon object in marker
-                //     markers[unit_id] = marker;
-                // }
-                // // create row-string with data
-                // var row = "<tr id='" + unit_id + "'>";
-                // // print message with information about selected unit and its position
-                // row += "<td class='unit'><img src='" + unit.getIconUrl(16) + "'/> " + unit.getName() + "</td>";
-                // row += "<td>Position " + pos.x + ", " + pos.y + "<br> Mileage " + layer.getMileage() + "</td>";
-                // row += "<td style='border: 1px solid #" + color + "'>     </td>";
-                // row += "<td class='close_btn'>x</td></tr>";
-                // //add info in table
-                // $("#tracks").append(row);
-            // }
+            resolve(layer._data.units[0]);
+            return;
+            
         });
 
         // query params

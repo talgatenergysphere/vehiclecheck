@@ -12,6 +12,7 @@ use function vehiclecheck\app\components\icons\IconCloudPlus;
 use function vehiclecheck\app\components\icons\IconRefreshSquare;
 use function vehiclecheck\app\components\icons\IconRecoveryConvert;
 use function vehiclecheck\app\components\icons\IconWhatsapp;
+use function vehiclecheck\app\components\icons\IconSignPost;
 
 global $app_vehiclecheck;
 global $_ENV;
@@ -25,6 +26,7 @@ require_once APP_BASE_PATH . '/app/components/icons/IconCloudPlus.php';
 require_once APP_BASE_PATH . '/app/components/icons/IconRefreshSquare.php';
 require_once APP_BASE_PATH . '/app/components/icons/IconRecoveryConvert.php';
 require_once APP_BASE_PATH . '/app/components/icons/IconWhatsapp.php';
+require_once APP_BASE_PATH . '/app/components/icons/IconSignPost.php';
 
 defined('VHCL_ID_PAGE_VEHICLE');
 
@@ -83,7 +85,8 @@ if (!function_exists('PageVehicle')) {
                 <div class="position-relative">
                     <div class="vehicle-avatar position-relative overflow-hidden rounded-circle bg-light">
                         <img class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
-                            :src="currentVehicle.PHOTO ? currentVehicle.PHOTO : '<?= getAppFileUrl('/public/images/company_icon.png') ?>'" alt="">
+                            :src="currentVehicle.PHOTO ? currentVehicle.PHOTO : '<?= getAppFileUrl('/public/images/company_icon.png') ?>'"
+                            alt="">
                     </div>
 
                     <span class="position-absolute top-50 start-50 px-3 text-bg-warning text-center fw-bold rounded-1"
@@ -96,7 +99,8 @@ if (!function_exists('PageVehicle')) {
 
                     <span :class="{'btn btn-outline-secondary pt-0 pb-1 px-2 border-0': canUpdateVehicleData}"
                         @click="e => canUpdateVehicleData ? openVehicleUpdateModal(['VEHICLE_MARK', 'VEHICLE_NUMBER']) : null">
-                        {{currentVehicle.VEHICLE_MARK ?? 'Марка не указано'}}({{currentVehicle.VEHICLE_NUMBER ?? 'Номер не указан'}})
+                        {{currentVehicle.VEHICLE_MARK ?? 'Марка не указано'}}
+                        ({{currentVehicle.VEHICLE_NUMBER ?? 'Номер не указан'}})
                     </span>
 
                 </div>
@@ -112,10 +116,10 @@ if (!function_exists('PageVehicle')) {
             <!-- Панель информации -->
             <div class="accordion mt-4" id="accordionPanels">
 
-                <!-- Данные автомобиля -->
+                <!-- Данные -->
                 <div class="accordion-item">
                     <h2 class="accordion-header d-flex position-relative">
-                        <button class="accordion-button text-bg-light" type="button" data-bs-toggle="collapse"
+                        <button class="accordion-button text-bg-light collapsed" type="button" data-bs-toggle="collapse"
                             data-bs-target="#panel-vehicle-data" aria-expanded="true" aria-controls="panel-vehicle-data">
                             <span class="mb-1">Данные</span>
                         </button>
@@ -125,7 +129,8 @@ if (!function_exists('PageVehicle')) {
                             @click="openVehicleUpdateModal('VEHICLE_ACTIVE')">
                             <div class="d-none d-md-block">{{currentVehicle.ACTIVE ? 'Отключить' : 'Восстановить'}} автомобиль
                             </div>
-                            <span class="d-inline d-md-none mb-1">{{currentVehicle.ACTIVE ? 'Отключить' : 'Восстановить'}}</span>
+                            <span class="d-inline d-md-none mb-1">{{currentVehicle.ACTIVE ? 'Отключить' :
+                                'Восстановить'}}</span>
                         </button>
 
                         <button v-if="canUpdateVehicleData" type="button"
@@ -134,7 +139,57 @@ if (!function_exists('PageVehicle')) {
                             <?= IconEdit('80%', '80%') ?>
                         </button>
                     </h2>
-                    <div id="panel-vehicle-data" class="accordion-collapse collapse show">
+                    <div id="panel-vehicle-data" class="accordion-collapse collapse">
+                        <div class="accordion-body border border-1 px-3 px-sm-0 py-2 bg-light-subtle">
+
+                            <form class="form-vehicle-data">
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Информация о ТО -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header d-flex position-relative">
+                        <button class="accordion-button text-bg-light collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panel-vehicle-to-info" aria-expanded="true" aria-controls="panel-vehicle-to-info">
+                            <span class="mb-1">Информация о ТО</span>
+                        </button>
+
+                        <button type="button"
+                            class="btn-accordion btn btn-outline-primary border-0 position-absolute end-0 top-50 translate-middle-y p-0 py-1 me-5 z-3"
+                            @click="openVehicleUpdateModal('VEHICLE_INFO')">
+                            <?= IconPlus('80%', '80%') ?>
+                        </button>
+                    </h2>
+                    <div id="panel-vehicle-to-info" class="accordion-collapse collapse">
+                        <div class="accordion-body border border-1 px-3 px-sm-0 py-2 bg-light-subtle">
+
+                            <form class="form-vehicle-data">
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Данные История -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header d-flex position-relative">
+                        <button class="accordion-button text-bg-light collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panel-vehicle-history" aria-expanded="true" aria-controls="panel-vehicle-history">
+                            <span class="mb-1">История</span>
+                        </button>
+
+                        <button type="button"
+                            class="btn-accordion btn btn-outline-primary border-0 position-absolute end-0 top-50 translate-middle-y p-0 py-1 me-5 z-3"
+                            @click="openRouteSheetPage">
+                            <?= IconSignPost('80%', '80%') ?>
+                        </button>
+                    </h2>
+                    <div id="panel-vehicle-history" class="accordion-collapse collapse">
                         <div class="accordion-body border border-1 px-3 px-sm-0 py-2 bg-light-subtle">
 
                             <form class="form-vehicle-data">

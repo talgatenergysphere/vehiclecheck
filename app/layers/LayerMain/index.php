@@ -11,9 +11,10 @@ use function vehiclecheck\service\php\utils\getAppFileUrl;
 use function vehiclecheck\service\php\utils\fetchPost;
 
 use function vehiclecheck\app\components\Preloader;
-use function vehiclecheck\app\pages\PageVehicleList;
+use function vehiclecheck\app\pages\PageRouteSheet;
 use function vehiclecheck\app\pages\PageVehicle;
 use function vehiclecheck\app\pages\PageVehicleAdd;
+use function vehiclecheck\app\pages\PageVehicleList;
 use function vehiclecheck\app\modals\ModalVehicleUpdateModule;
 
 global $_ENV;
@@ -44,9 +45,10 @@ if (empty($_GET['APP_SID'])) {
 /**-------------------------------------------------------------------------------------------------------------------*/
 
 define('VHCL_ID_LAYER_MAIN', 'layer-main');
-define('VHCL_ID_PAGE_VEHICLE_LIST', 'page-vehicle-list');
+define('VHCL_ID_PAGE_ROUTE_SHEET', 'page-route-sheet');
 define('VHCL_ID_PAGE_VEHICLE', 'page-vehicle');
 define('VHCL_ID_PAGE_VEHICLE_ADD', 'page-vehicle-add');
+define('VHCL_ID_PAGE_VEHICLE_LIST', 'page-vehicle-list');
 define('VHCL_ID_MODAL_VEHICLE_UPDATE', 'modal-vehicle-update');
 
 /**-------------------------------------------------------------------------------------------------------------------*/
@@ -79,20 +81,21 @@ $app_vehiclecheck['scripts'][] = function () {
 
         window.GLOBALS.Identificators = {
             VHCL_ID_LAYER_MAIN: "<?= VHCL_ID_LAYER_MAIN ?>",
-            VHCL_ID_PAGE_VEHICLE_LIST: "<?= VHCL_ID_PAGE_VEHICLE_LIST ?>",
+            VHCL_ID_PAGE_ROUTE_SHEET: "<?= VHCL_ID_PAGE_ROUTE_SHEET ?>",
             VHCL_ID_PAGE_VEHICLE: "<?= VHCL_ID_PAGE_VEHICLE ?>",
             VHCL_ID_PAGE_VEHICLE_ADD: "<?= VHCL_ID_PAGE_VEHICLE_ADD ?>",
+            VHCL_ID_PAGE_VEHICLE_LIST: "<?= VHCL_ID_PAGE_VEHICLE_LIST ?>",
             VHCL_ID_MODAL_VEHICLE_UPDATE: "<?= VHCL_ID_MODAL_VEHICLE_UPDATE ?>",
         }
 
         <?php if (defined('access_token')): ?>
             window.GLOBALS.access_token = "<?= access_token ?>";
         <?php endif; ?>
-            
-        <?php if( IS_DEV ): ?>
+
+        <?php if (IS_DEV): ?>
             console.log("LayerMain: Получены серверные данные: %o", window.GLOBALS);
         <?php endif; ?>
-            
+
     </script>
     <?php
 };
@@ -121,17 +124,17 @@ $app_vehiclecheck['stylesheets'][] = function () {
     ?>
     <style>
         #<?= VHCL_ID_LAYER_MAIN ?> {
-            
+
             layer-id {
                 --page-id: "#<?= VHCL_ID_LAYER_MAIN ?>"
             }
 
-            svg{
+            svg {
                 transition: scale 0.5s ease-in-out;
             }
 
             svg:active,
-            svg:hover{
+            svg:hover {
                 scale: 1.1;
             }
         }
@@ -142,9 +145,10 @@ $app_vehiclecheck['stylesheets'][] = function () {
 /**-------------------------------------------------------------------------------------------------------------------*/
 
 require_once APP_BASE_PATH . '/app/components/Preloader.php';
-require_once APP_BASE_PATH . '/app/pages/VehicleList/index.php';
+require_once APP_BASE_PATH . '/app/pages/RouteSheet/index.php';
 require_once APP_BASE_PATH . '/app/pages/Vehicle/index.php';
 require_once APP_BASE_PATH . '/app/pages/VehicleAdd/index.php';
+require_once APP_BASE_PATH . '/app/pages/VehicleList/index.php';
 require_once APP_BASE_PATH . '/app/modals/VehicleUpdate/index.php';
 
 /**-------------------------------------------------------------------------------------------------------------------*/
@@ -187,8 +191,8 @@ if (!function_exists('LayerMain')) {
             }
             ?>
 
-            <div id="<?= VHCL_ID_LAYER_MAIN ?>" >
-                
+            <div id="<?= VHCL_ID_LAYER_MAIN ?>">
+
                 <div v-for="(modal, index) in availableModals" :id="modal">
                 </div>
 
@@ -202,8 +206,9 @@ if (!function_exists('LayerMain')) {
             </div>
 
             <div style="display: none;" id="layer-templates">
-                <template id="<?= VHCL_ID_PAGE_VEHICLE_LIST ?>-template">
-                    <?= PageVehicleList() ?>
+
+                <template id="<?= VHCL_ID_PAGE_ROUTE_SHEET ?>-template">
+                    <?= PageRouteSheet() ?>
                 </template>
 
                 <template id="<?= VHCL_ID_PAGE_VEHICLE ?>-template">
@@ -212,6 +217,9 @@ if (!function_exists('LayerMain')) {
 
                 <template id="<?= VHCL_ID_PAGE_VEHICLE_ADD ?>-template">
                     <?= PageVehicleAdd() ?>
+                </template>
+                <template id="<?= VHCL_ID_PAGE_VEHICLE_LIST ?>-template">
+                    <?= PageVehicleList() ?>
                 </template>
 
                 <template id="<?= VHCL_ID_MODAL_VEHICLE_UPDATE ?>-template">

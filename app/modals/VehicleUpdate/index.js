@@ -11,6 +11,10 @@ const ModalVehicleUpdateModule = {
     createApp: async function (vueLayerMain, elementTemplate) {
 
         const {
+            VHCL_ID_PAGE_ROUTE_SHEET,
+            VHCL_ID_PAGE_VEHICLE,
+            VHCL_ID_PAGE_VEHICLE_ADD,
+            VHCL_ID_PAGE_VEHICLE_LIST,
             VHCL_ID_MODAL_VEHICLE_UPDATE,
         } = GLOBALS.Identificators;
 

@@ -97,9 +97,11 @@ const LayerMainModule = {
         } = GLOBALS.Scope;
 
         const {
-            VHCL_ID_PAGE_VEHICLE_LIST,
+            VHCL_ID_PAGE_ROUTE_SHEET,
             VHCL_ID_PAGE_VEHICLE,
             VHCL_ID_PAGE_VEHICLE_ADD,
+            VHCL_ID_PAGE_VEHICLE_LIST,
+            VHCL_ID_MODAL_VEHICLE_UPDATE,
         } = GLOBALS.Identificators;
 
         const result = [];
@@ -117,6 +119,7 @@ const LayerMainModule = {
         }
 
         result.push(VHCL_ID_PAGE_VEHICLE);
+        result.push(VHCL_ID_PAGE_ROUTE_SHEET);
 
         console.log('LayerMain: выполнен расчёт страниц: %o', result);
 
@@ -136,6 +139,10 @@ const LayerMainModule = {
         } = GLOBALS.Scope;
 
         const {
+            VHCL_ID_PAGE_ROUTE_SHEET,
+            VHCL_ID_PAGE_VEHICLE,
+            VHCL_ID_PAGE_VEHICLE_ADD,
+            VHCL_ID_PAGE_VEHICLE_LIST,
             VHCL_ID_MODAL_VEHICLE_UPDATE,
         } = GLOBALS.Identificators;
 
@@ -173,6 +180,37 @@ const LayerMainModule = {
         document.querySelector('#layer-templates')?.remove();
     },
 
+    initVehicleWialonUnit: async function (VEHICLE_NUMBER) {
+        const {
+            preloaderHide, wialon_login, wialon_logout, wialon_get_objects, wialon_get_location, wialon_get_track,
+        } = GLOBALS.JS;
+        
+        await wialon_login();
+
+        const wialon_objects = await wialon_get_objects();
+
+        // const selected_date = new Date("2024-10-17");
+
+        let result = null;
+
+        for (const unit of wialon_objects) {
+            // var pos = unit.getPosition();
+            // const address = await wialon_get_location(pos);
+            // const track = await wialon_get_track(unit, selected_date);
+            // console.log("ID: %O\nName: %O\nIcon: %O\nPos: %O\nAddress: %O\ntrack: %O\n", unit.getId(), unit.getName(), unit.getIconUrl(32), pos, address[0], track );
+            if (unit.getName() === VEHICLE_NUMBER) {
+                result = unit;
+                break;
+            }
+        }
+
+        await wialon_logout();
+
+        console.log('LayerMain: получены данные автомобиля VEHICLE_NUMBER в системе Wialon: %O', result);
+
+        return result;
+    },
+
     /** 
      * Сборка стейт менеджера приложения
      */
@@ -180,7 +218,11 @@ const LayerMainModule = {
     createApp: async function (carousel) {
 
         const {
+            VHCL_ID_PAGE_ROUTE_SHEET,
             VHCL_ID_PAGE_VEHICLE,
+            VHCL_ID_PAGE_VEHICLE_ADD,
+            VHCL_ID_PAGE_VEHICLE_LIST,
+            VHCL_ID_MODAL_VEHICLE_UPDATE,
         } = GLOBALS.Identificators;
 
         const {
@@ -359,6 +401,10 @@ const LayerMainModule = {
                     this.vehicleList = result;
 
                     return result;
+                },
+
+                initVehicleWialonUnit(VEHICLE_NUMBER) {
+                    return LayerMainModule.initVehicleWialonUnit(VEHICLE_NUMBER);
                 },
 
                 /*----------------------Завершение описания функци-----------------------------*/

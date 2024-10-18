@@ -12,9 +12,11 @@ const PageVehicleListModule = {
     createApp: async function (vueLayerMain, elementTemplate) {
 
         const {
+            VHCL_ID_PAGE_ROUTE_SHEET,
             VHCL_ID_PAGE_VEHICLE,
             VHCL_ID_PAGE_VEHICLE_ADD,
-            VHCL_ID_PAGE_DOCUMENT_GENERATOR,
+            VHCL_ID_PAGE_VEHICLE_LIST,
+            VHCL_ID_MODAL_VEHICLE_UPDATE,
         } = GLOBALS.Identificators;
 
         const {
@@ -48,8 +50,17 @@ const PageVehicleListModule = {
                         preloaderShow();
                         vueLayerMain.initVehicleList().then(data => {
                             this.vehicleList = data;
+                            //todo: delete this rows
+                            if( window.GLOBALS.IS_DEV ){
+                                const index = this.vehicleList.findIndex(data => data.ID == 1 );
+                                this.filterText = this.vehicleList[index].VEHICLE_MARK;
+                                this.filterActive = !this.vehicleList[index].ACTIVE;
+                                vueLayerMain.openPage(VHCL_ID_PAGE_VEHICLE, this.vehicleList[index]);
+                                vueLayerMain.openPage(VHCL_ID_PAGE_ROUTE_SHEET, this.vehicleList[index]);
+                            }
                         }).catch(e => {
-                            preloaderHideWithAlert('Не удалось запросить список автомобилей: ' + e.message);
+                            
+                            preloaderHideWithAlert('error', 'Запрос к серверу Vehiclecheck', 'Не удалось запросить список автомобилей: ' + e.message);
                         }).finally(preloaderHide);
                     }
                 },
@@ -67,13 +78,6 @@ const PageVehicleListModule = {
                 },
 
                 allLayerComponentsLoaded() {
-                    //todo: delete this rows
-                    if( window.GLOBALS.IS_DEV ){
-                        // const index = this.vehicleList.findIndex(user => user.ID == 858 );
-                        // this.filterText = this.vehicleList[index].title;
-                        // this.filterActive = !this.vehicleList[index].active;
-                        // vueLayerMain.openPage(VHCL_ID_PAGE_VEHICLE, this.vehicleList[index]);
-                    }
                 },
 
                 closePage() {
@@ -95,7 +99,8 @@ const PageVehicleListModule = {
                     const filterText = this.filterText.trim().toUpperCase();
                     
                     const findData = [
-                        data.TITLE,
+                        data.VEHICLE_MARK,
+                        data.VEHICLE_NUMBER,
                     ].filter(Boolean).join(' ').toUpperCase();
 
                     const filterWords = filterText.split(' ');
@@ -104,11 +109,11 @@ const PageVehicleListModule = {
 
                 },
 
-                openVehicle: (data) => {
+                openVehiclePage: (data) => {
                     vueLayerMain.openPage(VHCL_ID_PAGE_VEHICLE, data);
                 },
 
-                openVehicleAdd: () => {
+                openVehicleAddPage: () => {
                     vueLayerMain.openPage(VHCL_ID_PAGE_VEHICLE_ADD);
                 },
                 

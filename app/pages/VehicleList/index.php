@@ -5,7 +5,7 @@ namespace vehiclecheck\app\pages;
 use function vehiclecheck\app\components\icons\IconClose;
 use function vehiclecheck\service\php\utils\getAppFileUrl;
 
-use function vehiclecheck\app\components\icons\IconRight;
+use function vehiclecheck\app\components\icons\IconRightCircle;
 use function vehiclecheck\app\components\icons\IconCloseSquare;
 use function vehiclecheck\app\components\icons\IconPlus;
 use function vehiclecheck\app\components\icons\IconPlusCircle;
@@ -16,7 +16,7 @@ global $app_vehiclecheck;
 global $_ENV;
 
 require_once APP_BASE_PATH . '/service/php/utils.php';
-require_once APP_BASE_PATH . '/app/components/icons/IconRight.php';
+require_once APP_BASE_PATH . '/app/components/icons/IconRightCircle.php';
 require_once APP_BASE_PATH . '/app/components/icons/IconClose.php';
 require_once APP_BASE_PATH . '/app/components/icons/IconCloseSquare.php';
 require_once APP_BASE_PATH . '/app/components/icons/IconPlus.php';
@@ -82,7 +82,7 @@ if (!function_exists('PageVehicleList')) {
             <div class="list-group">
                 <template v-for="(data, index) in vehicleList">
                     <button v-if="filterData(data)" :key="data['ID']" type="button"
-                        class="list-group-item list-group-item-action" @click="e=>openVehicle(data)">
+                        class="list-group-item list-group-item-action" @click="e=>openVehiclePage(data)">
                         <div class="d-flex w-100 align-items-center gap-2 gap-sm-4">
 
                             <div class="vehicle-avatar position-relative overflow-hidden rounded-circle bg-light">
@@ -98,7 +98,7 @@ if (!function_exists('PageVehicleList')) {
                             </div>
 
                             <div class="vehicle-button">
-                                <?= IconRight('100%', '100%') ?>
+                                <?= IconRightCircle('100%', '100%') ?>
                             </div>
                         </div>
                     </button>
@@ -109,7 +109,7 @@ if (!function_exists('PageVehicleList')) {
                 <div class="container">
                     <div class="d-flex justify-content-end ">
                         <button class="add-button btn btn-outline-primary shadow-lg p-0 border-3 rounded-4 me-3 mb-3"
-                            @click="openVehicleAdd" style="pointer-events: auto;">
+                            @click="openVehicleAddPage" style="pointer-events: auto;">
                             <?= IconPlus('100%', '100%') ?>
                         </button>
                     </div>

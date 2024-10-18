@@ -11,6 +11,10 @@ const PageVehicleModule = {
     createApp: async function (vueLayerMain, elementTemplate) {
 
         const {
+            VHCL_ID_PAGE_ROUTE_SHEET,
+            VHCL_ID_PAGE_VEHICLE,
+            VHCL_ID_PAGE_VEHICLE_ADD,
+            VHCL_ID_PAGE_VEHICLE_LIST,
             VHCL_ID_MODAL_VEHICLE_UPDATE,
         } = GLOBALS.Identificators;
 
@@ -73,6 +77,10 @@ const PageVehicleModule = {
                         vehicle: this.currentVehicle,
                         info: info
                     });
+                },
+
+                openRouteSheetPage: () => {
+                    vueLayerMain.openPage(VHCL_ID_PAGE_ROUTE_SHEET, this.currentVehicle);
                 },
 
                 /*----------------------Завершение описания функци-----------------------------*/

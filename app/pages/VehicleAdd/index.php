@@ -22,16 +22,16 @@ $app_vehiclecheck['stylesheets'][] = function () {
                 --page-id: "#<?= VHCL_ID_PAGE_VEHICLE_ADD ?>"
             }
 
-            .form-label.required::after {
-                content: "*";
-                color: red;
-                margin-left: 0.25em;
-            }
-
             .close-button {
                 border-radius: 10px;
                 width: min(10%, 2rem);
                 min-width: min(10%, 2rem);
+            }
+
+            .form-label.required::after {
+                content: "*";
+                color: red;
+                margin-left: 0.25em;
             }
 
         }
@@ -48,7 +48,7 @@ if (!function_exists('PageVehicleAdd')) {
             <!-- Заголовок -->
             <div class="d-flex w-100 align-items-center gap-2 gap-sm-4 mb-4 position-relative">
 
-                <div class="vehicle-info flex-fill text-center text-truncate">
+                <div class="flex-fill text-center text-truncate">
                     <span class="text-body fw-bolder">Добавление данных об автомобиля</span>
                 </div>
 

@@ -362,8 +362,6 @@ $app_vehiclecheck['scripts'][] = function () {
             modalOperationResultTitleElement.textContent = title;
             modalOperationResultBodyElement.textContent = message;
 
-            console.log(callback_text, callback_function);
-
             if( callback_text && callback_function ){
                 modalOperationResultButtonElement.classList.remove('d-none');
                 modalOperationResultButtonElement.textContent = callback_text;
