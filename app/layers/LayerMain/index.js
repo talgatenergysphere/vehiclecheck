@@ -48,6 +48,9 @@ const LayerMainModule = {
 
             const vehicleListResponce = await fetchSelf(url);
 
+            if( vehicleListResponce && Array.isArray(vehicleListResponce)){
+                vehicleList = vehicleListResponce;
+            }
         } catch (error) {
             console.log(error);
         }
@@ -181,7 +184,7 @@ const LayerMainModule = {
         } = GLOBALS.Identificators;
 
         const {
-            preloaderHide, wialon_login, wialon_logout, wialon_get_objects,
+            preloaderHide, wialon_login, wialon_logout, wialon_get_objects, wialon_get_location, wialon_get_track,
         } = GLOBALS.JS;
 
         const { createApp, ref } = Vue;
@@ -194,32 +197,22 @@ const LayerMainModule = {
 
         const availableModals = LayerMainModule.calculateModals(currentUser);
 
-        // const wialon_user = await wialon_login();
+        // await wialon_login();
 
-        // console.log('LayerMain: подключен пользователь Wialon: %O', wialon_user);
+        // const wialon_objects = await wialon_get_objects();
 
-        // await wialon_logout();
-
-        const wialon_objects = await wialon_get_objects();
-
-        // const wialon_user = await wialon_login();
-
-        // console.log('LayerMain: подключен пользователь Wialon: %O', wialon_user);
+        // const selected_date = new Date("2024-10-17");
 
         // for (const unit of wialon_objects) {
         //     var pos = unit.getPosition();
-        //     wialon.util.Gis.getLocations([{lon:pos.x, lat:pos.y}], function(code, address){ 
-        //         if (code) { 
-        //             console.log(wialon.core.Errors.getErrorText(code));
-                    
-        //             return;
-        //         } 
-        //         console.log("ID: %O\nName: %O\nIcon: %O\nPos: %O\nAddress: %O\n", unit.getId(), unit.getName(), unit.getIconUrl(32), pos, address );
-        //     });
-            
+        //     const address = await wialon_get_location(pos);
+        //     const track = await wialon_get_track(unit, selected_date);
+        //     console.log("ID: %O\nName: %O\nIcon: %O\nPos: %O\nAddress: %O\ntrack: %O\n", unit.getId(), unit.getName(), unit.getIconUrl(32), pos, address[0], track );
         // }
 
-        console.log('LayerMain: данные Wialon: %O', wialon_objects);
+        // await wialon_logout();
+
+        // console.log('LayerMain: данные Wialon: %O', wialon_objects);
 
         return createApp({
             data() {

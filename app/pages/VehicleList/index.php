@@ -73,8 +73,8 @@ if (!function_exists('PageVehicleList')) {
                 <label class="btn btn-outline-secondary d-flex align-items-center justify-content-center"
                     for="filter-active-button">Отключены</label>
 
-                <button class="btn btn-outline-secondary p-1"
-                    type="button" @click="e => {filterText = ''; filterActive=false;}" :disabled="filterText==''&&!filterActive">
+                <button class="btn btn-outline-secondary p-1" type="button" @click="e => {filterText = ''; filterActive=false;}"
+                    :disabled="filterText==''&&!filterActive">
                     <?= IconClose("24px", "24px") ?>
                 </button>
             </div>
@@ -85,13 +85,16 @@ if (!function_exists('PageVehicleList')) {
                         class="list-group-item list-group-item-action" @click="e=>openVehicle(data)">
                         <div class="d-flex w-100 align-items-center gap-2 gap-sm-4">
 
-                            <div class="vehicle-avatar position-relative overflow-hidden rounded-circle bg-dark">
+                            <div class="vehicle-avatar position-relative overflow-hidden rounded-circle bg-light">
                                 <img class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
-                                    :src="data.photo ? data.PHOTO : `<?= $_ENV['VHCL_APP_URL'] ?>/public/images/company_icon.png`" alt="">
+                                    :src="data.photo ? data.PHOTO : '<?= getAppFileUrl('/public/images/company_icon.png') ?>'"
+                                    alt="">
                             </div>
 
                             <div class="vehicle-info flex-fill text-start text-truncate">
-                                <span class="text-body">{{data.TITLE || 'Наименование отсутсвует'}}</span>
+                                <span class="text-body">{{data.VEHICLE_MARK || 'Марка не указана'}}</span>
+                                <br>
+                                <span class="text-body-secondary">{{data.VEHICLE_NUMBER}}</span>
                             </div>
 
                             <div class="vehicle-button">
@@ -106,7 +109,7 @@ if (!function_exists('PageVehicleList')) {
                 <div class="container">
                     <div class="d-flex justify-content-end ">
                         <button class="add-button btn btn-outline-primary shadow-lg p-0 border-3 rounded-4 me-3 mb-3"
-                            @click="openVehicleAdd"  style="pointer-events: auto;">
+                            @click="openVehicleAdd" style="pointer-events: auto;">
                             <?= IconPlus('100%', '100%') ?>
                         </button>
                     </div>

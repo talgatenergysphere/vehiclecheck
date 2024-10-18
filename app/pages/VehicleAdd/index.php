@@ -64,11 +64,18 @@ if (!function_exists('PageVehicleAdd')) {
 
                 <div class="row mb-3 gap-3 gap-md-0">
 
-                    <div class="col-12">
-                        <label for="TITLE" class="form-label required">Наименование</label>
-                        <input type="text" class="form-control" id="TITLE" name="TITLE"
-                            pattern="^[A-Za-zА-Яа-яӘәҒғҚқҢңӨөҰұҮүҺһІіЁё]+$" v-model="currentVehicle.TITLE"
-                            title="Только буквы, без цифр и пробелов" placeholder="Введите наименование автомобиля" required>
+                    <div class="col-12 col-md-6">
+                        <label for="VEHICLE_MARK" class="form-label required">Марка</label>
+                        <input type="text" class="form-control" id="VEHICLE_MARK" name="VEHICLE_MARK"
+                            pattern="^[0-9A-Za-zА-Яа-яӘәҒғҚқҢңӨөҰұҮүҺһІіЁё\s]+$" v-model="currentVehicle.VEHICLE_MARK"
+                            title="Только буквы, цифры и пробелы, без прочих символов" placeholder="Введите марку автомобиля" required>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label for="VEHICLE_NUMBER" class="form-label required">Номер</label>
+                        <input type="text" class="form-control" id="VEHICLE_NUMBER" name="VEHICLE_NUMBER"
+                            pattern="^[0-9A-Z\s]+$" v-model="currentVehicle.VEHICLE_NUMBER"
+                            title="Только латинские буквы, цифры и пробелы" placeholder="Введите номер автомобиля" required>
                     </div>
 
                 </div>

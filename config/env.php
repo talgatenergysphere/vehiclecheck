@@ -25,6 +25,16 @@ switch (IS_DEV) {
         $_ENV['VHCL_SCRIPT_CACHE'] = $_ENV['VHCL_APPLICATION_VERSION'];
         // $_ENV['VHCL_SCRIPT_CACHE'] = $_ENV['VHCL_APPLICATION_VERSION'] . '&timestamp=' . time();
         
+        /*-------------------------ERP 1C ENV-------------------------------------------------------------------------*/
+
+        $_ENV['ERP_1C_IP_CONTAINER_PATH'] = $_SERVER["DOCUMENT_ROOT"] . '/local/orders/api/ip.json';
+
+        /*------------------------Тестовые базы 1С--------------------------------------------------------------------*/
+
+        $_ENV['ERP_1C_UT_BASE_NAME'] = ':26548/test/hs/VHCLutBitrixAPI';
+        $_ENV['ERP_1C_UT_INSTANCE'] = 'BitrixUser';
+        $_ENV['ERP_1C_UT_TOKEN'] = 'bE9vy4zu';
+        
         /*------------------------------------------------------------------------------------------------------------*/
         break;
     case false:// Production mode
@@ -67,8 +77,8 @@ $_ENV['WHATSAPP_TOKEN'] = 'sycfrnx9ryoh6syr';
 
 $_ENV['WIALON_DOMEN'] = "https://gps.point.kz";
 
-$_ENV['WIALON_TOKEN'] = '87e8b1a4c0043c80fc4f6de06177543e28F5CDD3373CC861DD9AC63304C49AAB26B0ECA8'; 
+// $_ENV['WIALON_TOKEN'] = '87e8b1a4c0043c80fc4f6de06177543e28F5CDD3373CC861DD9AC63304C49AAB26B0ECA8'; 
 // $_ENV['WIALON_TOKEN'] = '87e8b1a4c0043c80fc4f6de06177543eD718DCE58C436C93A5FBCCE8C2EF4FEB75102AAB'; // Права: просмотр данных
-// $_ENV['WIALON_TOKEN'] = '87e8b1a4c0043c80fc4f6de06177543eF9A6C196D46A4D6ABD2087C07474457448CDA386'; // Права: слежение онлайн
+$_ENV['WIALON_TOKEN'] = '87e8b1a4c0043c80fc4f6de06177543eF9A6C196D46A4D6ABD2087C07474457448CDA386'; // Права: слежение онлайн
 
 /*------------------------------------------------------------------------------------------------------------*/

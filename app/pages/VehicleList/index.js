@@ -9,28 +9,6 @@ const PageVehicleListModule = {
         }
     },
 
-    initUserList: async function () {
-        const {
-            VHCL_SCOPE_VEHICLE_LIST_ALL,
-            VHCL_SCOPE_VEHICLE_ADD,
-            VHCL_SCOPE_VEHICLE_UPDATE,
-        } = GLOBALS.Scope;
-
-        const result = [];
-
-        result.sort((a, b) => {
-            if (a.LAST_NAME < b.LAST_NAME) return -1;
-            if (a.LAST_NAME > b.LAST_NAME) return 1;
-            if (a.NAME < b.NAME) return -1;
-            if (a.NAME > b.NAME) return 1;
-            return a.ID - b.ID;
-        });
-
-        console.log('PageVehicleList: загружены данные реклам: %o', JSON.parse(JSON.stringify(result)));
-
-        return result;
-    },
-
     createApp: async function (vueLayerMain, elementTemplate) {
 
         const {
@@ -46,13 +24,11 @@ const PageVehicleListModule = {
         } = GLOBALS.Scope;
 
         const { createApp, ref } = Vue;
-
-        const vehicleList = await PageVehicleListModule.initUserList(vueLayerMain.vehicleList, vueLayerMain.currentUser);
         
         return createApp({
             data() {
                 return {
-                    vehicleList: ref(vehicleList),
+                    vehicleList: ref([]),
                     filterText: ref(''),
                     filterActive: ref(false),
                     canAdAdd: vueLayerMain.currentUser?.SCOPE?.includes(VHCL_SCOPE_VEHICLE_ADD),

@@ -69,7 +69,7 @@ const PageVehicleModule = {
 
                 openVehicleUpdateModal(dataType, info = null) {
                     vueLayerMain.openModal(VHCL_ID_MODAL_VEHICLE_UPDATE, {
-                        dataType: [dataType],
+                        dataType: dataType,
                         vehicle: this.currentVehicle,
                         info: info
                     });

@@ -2,6 +2,8 @@
 
 namespace vehiclecheck\app\components;
 
+use function vehiclecheck\service\php\utils\getAppFileUrl;
+
 global $app_vehiclecheck;
 global $_ENV;
 
@@ -229,8 +231,8 @@ if (!function_exists('Preloader')) {
 
         <div class="preloader">
             <div class="image-container">
-                <img class="image-ornament" src="<?= $_ENV['VHCL_APP_URL'] ?>/public/images/company_ornament.png" alt="">
-                <img class="image-icon" src="<?= $_ENV['VHCL_APP_URL'] ?>/public/images/company_icon_square.png" alt="">
+                <img class="image-ornament" src="<?= getAppFileUrl('/public/images/company_ornament.png') ?>" alt="">
+                <img class="image-icon" src="<?= getAppFileUrl('/public/images/company_icon_square.png') ?>" alt="">
             </div>
         </div>
 

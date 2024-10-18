@@ -45,18 +45,34 @@ if (!function_exists('ModalVehicleUpdateModule')) {
                         <input type="hidden" id="ID" name="ID" :value="currentVehicle.ID">
                     </div>
 
-                    <!-- Наименование -->
-                    <template v-if="updatedDataList.includes('VEHICLE_TITLE')">
+                    <!-- Марка автомобиля -->
+                    <template v-if="updatedDataList.includes('VEHICLE_MARK')">
                         <div class="mb-2">
-                            <label for="TITLE" class="form-label d-block d-sm-none required">Наименование</label>
+                            <label for="VEHICLE_MARK" class="form-label d-block d-sm-none required">Марка</label>
                             <div class="input-group">
-                                <span class="input-group-text d-none d-sm-block border-0 rounded-0 ps-4">Наименование</span>
-                                <input type="text" class="form-control" id="TITLE" name="TITLE" v-model="currentVehicle.TITLE"
-                                    placeholder="Введите наименование публикации" required>
+                                <span class="input-group-text d-none d-sm-block border-0 rounded-0 ps-4">Марка</span>
+                                <input type="text" class="form-control" id="VEHICLE_MARK" name="VEHICLE_MARK"
+                                    v-model="currentVehicle.VEHICLE_MARK" pattern="^[0-9A-Za-zА-Яа-яӘәҒғҚқҢңӨөҰұҮүҺһІіЁё\s]+$"
+                                    title="Только буквы, цифры и пробелы, без прочих символов"
+                                    placeholder="Введите марку автомобиля" required>
                                 <span class="input-group-text d-none d-sm-block border-0 rounded-0"></span>
                             </div>
                         </div>
+                    </template>
 
+                    <!-- Номер автомобиля -->
+                    <template v-if="updatedDataList.includes('VEHICLE_NUMBER')">
+                        <div class="mb-2">
+                            <label for="VEHICLE_NUMBER" class="form-label d-block d-sm-none required">Номер</label>
+                            <div class="input-group">
+                                <span class="input-group-text d-none d-sm-block border-0 rounded-0 ps-4">Номер</span>
+                                <input type="text" class="form-control" id="VEHICLE_NUMBER" name="VEHICLE_NUMBER"
+                                    v-model="currentVehicle.VEHICLE_NUMBER" pattern="^[0-9A-Z\s]+$"
+                                    title="Только латинские буквы, цифры и пробелы" placeholder="Введите номер автомобиля"
+                                    required>
+                                <span class="input-group-text d-none d-sm-block border-0 rounded-0"></span>
+                            </div>
+                        </div>
                     </template>
 
                     <!-- Активность пользователя -->

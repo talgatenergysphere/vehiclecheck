@@ -81,9 +81,9 @@ if (!function_exists('PageVehicle')) {
             <div class="d-flex w-100 align-items-center gap-2 gap-sm-4 px-3 position-relative">
 
                 <div class="position-relative">
-                    <div class="vehicle-avatar position-relative overflow-hidden rounded-circle bg-dark">
+                    <div class="vehicle-avatar position-relative overflow-hidden rounded-circle bg-light">
                         <img class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
-                            :src="currentVehicle.PHOTO ? currentVehicle.PHOTO : `<?= $_ENV['VHCL_APP_URL'] ?>/public/images/company_icon.png`" alt="">
+                            :src="currentVehicle.PHOTO ? currentVehicle.PHOTO : '<?= getAppFileUrl('/public/images/company_icon.png') ?>'" alt="">
                     </div>
 
                     <span class="position-absolute top-50 start-50 px-3 text-bg-warning text-center fw-bold rounded-1"
@@ -95,8 +95,8 @@ if (!function_exists('PageVehicle')) {
                 <div class="vehicle-info w-50 flex-fill text-start text-truncate">
 
                     <span :class="{'btn btn-outline-secondary pt-0 pb-1 px-2 border-0': canUpdateVehicleData}"
-                        @click="e => canUpdateVehicleData ? openVehicleUpdateModal('VEHICLE_TITLE') : null">
-                        {{currentVehicle.TITLE ?? 'Наименование не указано'}}
+                        @click="e => canUpdateVehicleData ? openVehicleUpdateModal(['VEHICLE_MARK', 'VEHICLE_NUMBER']) : null">
+                        {{currentVehicle.VEHICLE_MARK ?? 'Марка не указано'}}({{currentVehicle.VEHICLE_NUMBER ?? 'Номер не указан'}})
                     </span>
 
                 </div>
