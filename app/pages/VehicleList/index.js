@@ -52,11 +52,11 @@ const PageVehicleListModule = {
                             this.vehicleList = data;
                             //todo: delete this rows
                             if( window.GLOBALS.IS_DEV ){
-                                const index = this.vehicleList.findIndex(data => data.ID == 1 );
-                                this.filterText = this.vehicleList[index].VEHICLE_MARK;
-                                this.filterActive = !this.vehicleList[index].ACTIVE;
-                                vueLayerMain.openPage(VHCL_ID_PAGE_VEHICLE, this.vehicleList[index]);
-                                vueLayerMain.openPage(VHCL_ID_PAGE_ROUTE_SHEET, this.vehicleList[index]);
+                                // const index = this.vehicleList.findIndex(data => data.ID == 1 );
+                                // this.filterText = this.vehicleList[index].VEHICLE_MARK;
+                                // this.filterActive = !this.vehicleList[index].ACTIVE;
+                                // vueLayerMain.openPage(VHCL_ID_PAGE_VEHICLE, this.vehicleList[index]);
+                                // vueLayerMain.openPage(VHCL_ID_PAGE_ROUTE_SHEET, this.vehicleList[index]);
                             }
                         }).catch(e => {
                             

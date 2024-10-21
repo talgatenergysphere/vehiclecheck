@@ -41,6 +41,10 @@ const PageVehicleAddModule = {
                     currentVehicle: ref({}),
 
                     disableAdd: ref(false),
+
+                    transportList: ref([]),
+
+                    utLink: ref(null),
                 };
             },
             computed: {
@@ -52,6 +56,19 @@ const PageVehicleAddModule = {
 
                 openPage() {
                     this.currentVehicle = {};
+                    this.utLink = null;
+                    if (this.transportList?.length == 0) {
+                        if (vueLayerMain.transportList) {
+                            this.transportList = vueLayerMain.transportList;
+                        } else {
+                            preloaderShow();
+                            vueLayerMain.initErp1CData().then(data => {
+                                this.transportList = data.transportList;
+                            }).catch(e => {
+                                preloaderHideWithAlert('error', 'Запрос к серверу 1C-УТ', 'Не удалось запросить данные о транспортных средствах: ' + e.message);
+                            }).finally(preloaderHide);
+                        }
+                    }
                 },
 
                 updateData(data = null) {
@@ -83,8 +100,23 @@ const PageVehicleAddModule = {
                         const data = {};
 
                         for (let [key, value] of formData.entries()) {
-                            data[key] = value;
+                            console.log(key);
+                            
+                            if( key == 'VEHICLE_ERP1C_UT_LINK'){
+                                const selectedTransport = this.transportList.find(
+                                    transport => transport.Ссылка === value
+                                );
+                                
+                                this.currentVehicle.VEHICLE_ERP1C_UT = selectedTransport;
+                                data['VEHICLE_ERP1C_UT'] = selectedTransport;
+                            }else{
+
+                                data[key] = value === 'true' ? true : value === 'false' ? false : value;
+                            }
                         }
+
+                        console.log(data);
+                        
 
                         /*---------------------------------------------------------------------------------------*/
 

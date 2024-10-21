@@ -91,6 +91,8 @@ if (!function_exists('PageRouteSheet')) {
 
                 <div class="vehicle-info flex-fill text-center text-truncate">
                     <span class="text-body fw-bolder">Информация о маршруте</span>
+                    <span v-if="currentVehicle?.VEHICLE_NUMBER"
+                        class="text-body fw-bolder ms-1">{{currentVehicle.VEHICLE_NUMBER}}</span>
                 </div>
 
                 <button v-if="canPageClose"
@@ -131,11 +133,37 @@ if (!function_exists('PageRouteSheet')) {
             </div>
 
             <Transition name="slide-fade">
-                <template v-if="selectedDate">
-                    <div class="row justify-content-center m-0 p-2">
+                <div v-if="selectedDate" class="row justify-content-center">
 
+                    <div class="col">
+                        <template v-if="wialonData[selectedDate]?.distance">
+
+                            <div class="text-center">
+                                <span class="text-body fw-bolder">Данные Wialon</span>
+                            </div>
+
+                            <div class="text-start">
+                                <span class="text-body">Расстояние за день: </span>
+                                <span class="text-body fw-bolder">{{wialonData[selectedDate].distance}}</span>
+                                <span class="text-body">км.</span>
+                            </div>
+
+                            <div class="list-group">
+                                <li v-for="wialonPoint in wialonData[selectedDate].addressList"
+                                    class="list-group-item d-flex align-items-center">
+
+                                    <span class="badge bg-primary badge-pill">{{wialonPoint.time}}</span>
+                                    <span class="text-body ms-2">{{wialonPoint.location}}</span>
+
+                                </li>
+                            </div>
+                        </template>
+                        <div v-else-if="wialonData[selectedDate]" class="alert alert-info text-center" role="alert">
+                            Данные <strong>Wialon</strong> отсутствуют
+                        </div>
                     </div>
-                </template>
+
+                </div>
             </Transition>
 
         </div>

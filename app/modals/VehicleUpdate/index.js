@@ -40,6 +40,10 @@ const ModalVehicleUpdateModule = {
                     updatedDataList: ref([]),
                     additionalParameters: ref(null),
 
+                    transportList: ref([]),
+
+                    utLink: ref(null),
+
                 };
             },
             computed: {
@@ -53,6 +57,22 @@ const ModalVehicleUpdateModule = {
                     this.currentVehicle = {...data.vehicle};
                     this.updatedDataList = data.dataType;
                     this.additionalParameters = data.info;
+                    this.utLink = data.vehicle.VEHICLE_ERP1C_UT?.Ссылка ?? null;
+                    
+                    if( data.dataType.includes('VEHICLE_INFO')){
+                        if (this.transportList?.length == 0) {
+                            if (vueLayerMain.transportList) {
+                                this.transportList = vueLayerMain.transportList;
+                            } else {
+                                preloaderShow();
+                                vueLayerMain.initErp1CData().then(data => {
+                                    this.transportList = data.transportList;
+                                }).catch(e => {
+                                    preloaderHideWithAlert('error', 'Запрос к серверу 1C-УТ', 'Не удалось запросить данные о транспортных средствах: ' + e.message);
+                                }).finally(preloaderHide);
+                            }
+                        }
+                    }
 
                     console.log('ModalVehicleUpdate: запущена модальное окна редактирования автомобиля: %o\n с редактированием данных: %o\n дополнительные данные: %o ',
                         JSON.parse(JSON.stringify(data.vehicle)),
@@ -91,7 +111,18 @@ const ModalVehicleUpdateModule = {
                             if( key != 'ID'){
                                 isUpdated = true;
                             }
-                            data[key] = value === 'true' ? true : value === 'false' ? false : value;
+
+                            if( key == 'VEHICLE_ERP1C_UT_LINK'){
+                                const selectedTransport = this.transportList.find(
+                                    transport => transport.Ссылка === value
+                                );
+                                this.currentVehicle.VEHICLE_ERP1C_UT = selectedTransport;
+                                
+                                data['VEHICLE_ERP1C_UT'] = selectedTransport;
+                            }else{
+
+                                data[key] = value === 'true' ? true : value === 'false' ? false : value;
+                            }
                         }
 
                         /*---------- Обновляем данные автомобиля --------------------------------------------------*/

@@ -1,19 +1,7 @@
 <?php
 
-use function vehiclecheck\service\php\bitrix\isUserAdminOrHRmanager;
-use function vehiclecheck\service\php\erp1c\get_banks_erp1c_bk;
-use function vehiclecheck\service\php\erp1c\get_citizenship_erp1c_bk;
-use function vehiclecheck\service\php\erp1c\get_contacts_erp1c_bk;
-use function vehiclecheck\service\php\erp1c\get_passports_erp1c_bk;
-use function vehiclecheck\service\php\sanitize\getSanitizedValues;
+use function vehiclecheck\service\php\erp1c\get_transport_erp1c_ut;
 use function vehiclecheck\service\php\bitrix\includeD7;
-use function vehiclecheck\service\php\erp1c\get_employees_erp1c_ut;
-use function vehiclecheck\service\php\erp1c\get_individuals_erp1c_ut;
-use function vehiclecheck\service\php\erp1c\get_company_structure_erp1c_ut;
-use function vehiclecheck\service\php\erp1c\get_warehouses_erp1c_ut;
-use function vehiclecheck\service\php\erp1c\find_employee_erp1c_ut;
-use function vehiclecheck\service\php\erp1c\find_individual_erp1c_ut;
-use function vehiclecheck\service\php\erp1c\find_individual_erp1c_bk;
 
 // Определяем базовый путь к проекту
 if (!defined('APP_BASE_PATH')) {
@@ -51,14 +39,6 @@ if (!function_exists('getResult')) {
             require_once APP_BASE_PATH . '/service/php/bitrix.php';
 
             includeD7();// Проверить авторизацию
-            
-            //----------------------------------------------------------------
-
-            global $USER;
-
-            if( !isUserAdminOrHRmanager($USER->getId())){
-                return setError("Недостаточно прав для получения данных");
-            }
 
             //----------------------------------------------------------------
 
@@ -66,14 +46,14 @@ if (!function_exists('getResult')) {
 
             //----------------------------------------------------------------
 
-            $ERP_1C_BK_BANKS_DATA = get_banks_erp1c_bk();
+            $ERP_1C_UT_TRANSPORT_LIST = get_transport_erp1c_ut();
 
             //----------------------------------------------------------------
 
             return [
                 'result' => [
                     'status' => 'ok',
-                    'bankList' => $ERP_1C_BK_BANKS_DATA,
+                    'transportList' => $ERP_1C_UT_TRANSPORT_LIST,
                 ]
             ];
         } catch (\Throwable $th) {

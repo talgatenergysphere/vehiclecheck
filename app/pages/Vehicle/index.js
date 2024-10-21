@@ -79,7 +79,8 @@ const PageVehicleModule = {
                     });
                 },
 
-                openRouteSheetPage: () => {
+                openRouteSheetPage() {
+                    
                     vueLayerMain.openPage(VHCL_ID_PAGE_ROUTE_SHEET, this.currentVehicle);
                 },
 

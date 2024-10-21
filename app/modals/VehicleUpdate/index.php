@@ -75,6 +75,29 @@ if (!function_exists('ModalVehicleUpdateModule')) {
                         </div>
                     </template>
 
+                    <!-- Ссылка на автомобиль в 1С-УТ -->
+                    <template v-if="updatedDataList.includes('VEHICLE_INFO')">
+
+                        <div class="mb-3">
+
+                            <label for="VEHICLE_ERP1C_UT_LINK" class="form-label d-block d-sm-none required">Ссылка на автомобиль в 1С-УТ</label>
+                            <div class="input-group">
+                                <span class="input-group-text d-none d-sm-block border-0 rounded-0 ps-4">Ссылка на автомобиль в 1С-УТ</span>
+                                
+                                <select class="form-select" id="VEHICLE_ERP1C_UT_LINK" name="VEHICLE_ERP1C_UT_LINK"
+                                    v-model="utLink" 
+                                    required>
+                                    <option value="" disabled>Выберите ссылку на автомобиль в 1С-УТ</option>
+                                    <option v-for="transport in transportList" :value="transport.Ссылка">
+                                        {{transport.Наименование}}({{transport.Код}})
+                                    </option>
+                                </select>
+                                <span class="input-group-text d-none d-sm-block border-0 rounded-0"></span>
+                            </div>
+                        </div>
+
+                    </template>
+
                     <!-- Активность пользователя -->
                     <template v-if="updatedDataList.includes('VEHICLE_ACTIVE')">
 

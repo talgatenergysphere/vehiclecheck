@@ -60,6 +60,28 @@ const LayerMainModule = {
         return vehicleList;
     },
 
+    initErp1cData: async function (){
+        const { fetchSelf } = GLOBALS.JS;
+        
+        var transportList;
+
+        var responce;
+
+        try {
+            responce = await fetchSelf('/api/v1/erp1c/get1cData/');
+        } catch (error) {
+            throw new Error("Не удалось запросить в 1C данные о банках");
+        }
+        
+        if (responce?.result?.status == 'ok' && responce?.result?.transportList) {
+            transportList = responce.result.transportList;
+        }
+
+        console.log('LayerMain: запрошены данные в 1c: %o', {transportList});
+
+        return {transportList};
+    },
+
     /** 
      * Определение разрешений автомобиля
      */
@@ -269,6 +291,7 @@ const LayerMainModule = {
                     loadedModals: [],
 
                     vehicleList: null,
+                    transportList: null,
                 };
             },
             computed: {
@@ -405,6 +428,14 @@ const LayerMainModule = {
 
                 initVehicleWialonUnit(VEHICLE_NUMBER) {
                     return LayerMainModule.initVehicleWialonUnit(VEHICLE_NUMBER);
+                },
+
+                async initErp1CData() {
+                    const result = await LayerMainModule.initErp1cData();
+
+                    this.transportList = result.transportList;
+
+                    return result;
                 },
 
                 /*----------------------Завершение описания функци-----------------------------*/

@@ -119,7 +119,7 @@ if (!function_exists('PageVehicle')) {
                 <!-- Данные -->
                 <div class="accordion-item">
                     <h2 class="accordion-header d-flex position-relative">
-                        <button class="accordion-button text-bg-light collapsed" type="button" data-bs-toggle="collapse"
+                        <button class="accordion-button text-bg-light" type="button" data-bs-toggle="collapse"
                             data-bs-target="#panel-vehicle-data" aria-expanded="true" aria-controls="panel-vehicle-data">
                             <span class="mb-1">Данные</span>
                         </button>
@@ -139,11 +139,21 @@ if (!function_exists('PageVehicle')) {
                             <?= IconEdit('80%', '80%') ?>
                         </button>
                     </h2>
-                    <div id="panel-vehicle-data" class="accordion-collapse collapse">
+                    <div id="panel-vehicle-data" class="accordion-collapse collapse show">
                         <div class="accordion-body border border-1 px-3 px-sm-0 py-2 bg-light-subtle">
 
                             <form class="form-vehicle-data">
-
+                                <div class="" >
+                                    <label for="VEHICLE_ERP1C_UT" class="form-label d-block d-sm-none required">Ссылка на автомобиль в 1С-УТ</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text d-none d-sm-block border-0 rounded-0">Ссылка на автомобиль в 1С-УТ</span>
+                                        <input type="text" class="form-control" id="VEHICLE_ERP1C_UT" name="VEHICLE_ERP1C_UT"
+                                            :value="currentVehicle.VEHICLE_ERP1C_UT?`${currentVehicle.VEHICLE_ERP1C_UT?.Наименование}(${currentVehicle.VEHICLE_ERP1C_UT?.Код})`:null"
+                                            title="Выберите ссылку на автомобиль в 1С-УТ"
+                                            placeholder="Выберите ссылку на автомобиль в 1С-УТ" readonly>
+                                        <span class="input-group-text d-none d-sm-block border-0 rounded-0"></span>
+                                    </div>
+                                </div>
                             </form>
 
                         </div>

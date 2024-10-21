@@ -68,7 +68,8 @@ if (!function_exists('PageVehicleAdd')) {
                         <label for="VEHICLE_MARK" class="form-label required">Марка</label>
                         <input type="text" class="form-control" id="VEHICLE_MARK" name="VEHICLE_MARK"
                             pattern="^[0-9A-Za-zА-Яа-яӘәҒғҚқҢңӨөҰұҮүҺһІіЁё\s]+$" v-model="currentVehicle.VEHICLE_MARK"
-                            title="Только буквы, цифры и пробелы, без прочих символов" placeholder="Введите марку автомобиля" required>
+                            title="Только буквы, цифры и пробелы, без прочих символов" placeholder="Введите марку автомобиля"
+                            required>
                     </div>
 
                     <div class="col-12 col-md-6">
@@ -76,6 +77,22 @@ if (!function_exists('PageVehicleAdd')) {
                         <input type="text" class="form-control" id="VEHICLE_NUMBER" name="VEHICLE_NUMBER"
                             pattern="^[0-9A-Z\s]+$" v-model="currentVehicle.VEHICLE_NUMBER"
                             title="Только латинские буквы, цифры и пробелы" placeholder="Введите номер автомобиля" required>
+                    </div>
+
+                </div>
+
+                <div class="row mb-3 gap-3 gap-md-0">
+
+                    <div class="col-12">
+                        <label for="VEHICLE_ERP1C_UT_LINK" class="form-label required">Ссылка на автомобиль в 1С-УТ</label>
+                        <select class="form-select" id="VEHICLE_ERP1C_UT_LINK" name="VEHICLE_ERP1C_UT_LINK"
+                            v-model="utLink" required>
+                            <option class="text-bg-secondary" value="" disabled selected>Выберите ссылку на автомобиль в 1С-УТ
+                            </option>
+                            <option v-for="transport in transportList" :value="transport.Ссылка">
+                                {{transport.Наименование}}({{transport.Код}})
+                            </option>
+                        </select>
                     </div>
 
                 </div>

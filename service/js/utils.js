@@ -8,6 +8,16 @@ if (!window.GLOBALS) {
 
 const regexData = /^(\d{4})-(\d{2})-(\d{2})T.*/;
 
+/**
+ * Преобразует градусы в радианы.
+ *
+ * @param {number} degrees Значение в градусах.
+ * @returns {number} Значение в радианах.
+ */
+function toRadians(degrees) {
+    return degrees * Math.PI / 180;
+}
+
 window.GLOBALS.JS.fetchSelf = async function (url = "", data = {}) {
 
     const response = await fetch(window.GLOBALS.appUrl + url, {
@@ -237,7 +247,6 @@ window.GLOBALS.JS.prepareUserInfo = function (user) {
 }
 
 window.GLOBALS.JS.prepareVehicleInfo = function (vehicle) {
-
     return vehicle;
 }
 
@@ -255,3 +264,33 @@ window.GLOBALS.JS.downloadFile = function (url, filename) {
         link.remove();
     }
 }
+
+/**
+ * Рассчитывает расстояние между двумя точками на поверхности Земли.
+ *
+ * @param {number} lat1 Широта первой точки в градусах.
+ * @param {number} lon1 Долгота первой точки в градусах.
+ * @param {number} lat2 Широта второй точки в градусах.
+ * @param {number} lon2 Долгота второй точки в градусах.
+ * @returns {number} Расстояние между точками в метрах.
+ */
+window.GLOBALS.JS.calculateDistance = function (lat1, lon1, lat2, lon2) {
+    // Радиус Земли в метрах
+    const earthRadius = 6371000;
+
+    // Разница широты и долготы в радианах
+    const dLat = toRadians(lat2 - lat1);
+    const dLon = toRadians(lon2 - lon1);
+
+    // Формула гаверсинуса для вычисления расстояния
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    // Расстояние в метрах
+    const distance = earthRadius * c;
+
+    return distance;
+}
+

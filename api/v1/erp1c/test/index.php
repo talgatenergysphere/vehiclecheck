@@ -2,6 +2,7 @@
 
 use function vehiclecheck\service\php\bitrix\includeD7;
 use function vehiclecheck\service\php\erp1c\get_test_erp1c_ut;
+use function vehiclecheck\service\php\erp1c\get_transport_erp1c_ut;
 // Определяем базовый путь к проекту
 if (!defined('APP_BASE_PATH')) {
     define('APP_BASE_PATH', dirname(__DIR__, 4));
@@ -41,6 +42,7 @@ if (!function_exists('getResult')) {
             //----------------------------------------------------------------
 
             $test_ut = get_test_erp1c_ut();
+            $transport_ut = get_transport_erp1c_ut();
 
             //----------------------------------------------------------------
             return [
@@ -48,6 +50,7 @@ if (!function_exists('getResult')) {
                     'status' => 'ok',
                     'UT' => [
                         'test' => $test_ut,
+                        'transport' => $transport_ut,
                     ],
                 ]
             ];

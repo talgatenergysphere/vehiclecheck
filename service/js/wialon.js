@@ -164,9 +164,17 @@ window.GLOBALS.JS.wialon_get_track = async (unit, selected_date) => {
                 reject(new Error('Отсутствуют данные трека объекта в системе gps-трекинга Wialon'));
                 return;
             }
+            
+            layer.getMessages(unit, 0, layer.getMessagesCount(), (code, col)=>{
 
-            resolve(layer._data.units[0]);
-            return;
+                const data = layer._data.units[0];
+
+                data.points = col;
+            
+                resolve(data);
+                return;
+                
+            });
             
         });
 
@@ -186,5 +194,6 @@ window.GLOBALS.JS.wialon_get_track = async (unit, selected_date) => {
         };
 
         renderer.createMessagesLayer(params, callback);
+        
     });
 }
